@@ -1,5 +1,5 @@
 
-Converts wikilinks (`[[wikilink]]`) to relative links.
+Converts wikilinks (`[[wikilink]]`) to relative links. Absolute links are kept as is.
 
 # Wikilink syntax
 
