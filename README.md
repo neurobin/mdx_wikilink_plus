@@ -58,81 +58,20 @@ the output will be:
 
 # Example outputs without any config
 
-`[[wikilink]]` will be converted to:
+Markdown | HTML
+-------- | ----
+`[[wikilink]]` | <a class="wikilink" href="wikilink">Wikilink</a>
+`[[/path/to/file name]]` | <a class="wikilink" href="/path/to/file-name">File Name</a>
+`[[/path/to/file_name]]` | <a class="wikilink" href="/path/to/file_name">File Name</a>
+`[[/path/to/file-name]]` | <a class="wikilink" href="/path/to/file-name">File Name</a>
+`[[/path/to/file name/?a=b&b=c]]` | <a class="wikilink" href="/path/to/file-name/?a=b&amp;b=c">File Name</a>
+`[[/path/to/file name.html]]` | <a class="wikilink" href="/path/to/file-name.html">File Name</a>
+`[[/path/to/file name.html?a=b&b=c]]` | <a class="wikilink" href="/path/to/file-name.html?a=b&amp;b=c">File Name</a>
+`[[https://www.example.com/?]]` | <a class="wikilink" href="https://www.example.com/">www.example.com</a>
+`[[https://www.example.com/?a=b&b=c]]` | <a class="wikilink" href="https://www.example.com/?a=b&amp;b=c">www.example.com</a>
+`[[https://www.example.com/example-tutorial]]` | <a class="wikilink" href="https://www.example.com/example-tutorial">Example Tutorial</a>
+`[[https://www.example.com/example-tutorial | Example Tutorial]]` | <a class="wikilink" href="https://www.example.com/example-tutorial">Example Tutorial</a>
 
-```html
-<a class="wikilink" href="wikilink">Wikilink</a>
-```
-
-
-`[[/path/to/file name]]` will be converted to:
-
-```html
-<a class="wikilink" href="/path/to/file-name">File Name</a>
-```
-
-
-`[[/path/to/file_name]]` will be converted to:
-
-```html
-<a class="wikilink" href="/path/to/file_name">File Name</a>
-```
-
-
-`[[/path/to/file-name]]` will be converted to:
-
-```html
-<a class="wikilink" href="/path/to/file-name">File Name</a>
-```
-
-
-`[[/path/to/file name/?a=b&b=c]]` will be converted to:
-
-```html
-<a class="wikilink" href="/path/to/file-name/?a=b&amp;b=c">File Name</a>
-```
-
-
-`[[/path/to/file name.html]]` will be converted to:
-
-```html
-<a class="wikilink" href="/path/to/file-name.html">File Name</a>
-```
-
-
-`[[/path/to/file name.html?a=b&b=c]]` will be converted to:
-
-```html
-<a class="wikilink" href="/path/to/file-name.html?a=b&amp;b=c">File Name</a>
-```
-
-
-`[[https://www.example.com/?]]` will be converted to:
-
-```html
-<a class="wikilink" href="https://www.example.com/">www.example.com</a>
-```
-
-
-`[[https://www.example.com/?a=b&b=c]]` will be converted to:
-
-```html
-<a class="wikilink" href="https://www.example.com/?a=b&amp;b=c">www.example.com</a>
-```
-
-
-`[[https://www.example.com/example-tutorial]]` will be converted to:
-
-```html
-<a class="wikilink" href="https://www.example.com/example-tutorial">Example Tutorial</a>
-```
-
-
-`[[https://www.example.com/example-tutorial | Example Tutorial]]` will be converted to:
-
-```html
-<a class="wikilink" href="https://www.example.com/example-tutorial">Example Tutorial</a>
-```
 
 # The build_url callable:
 
