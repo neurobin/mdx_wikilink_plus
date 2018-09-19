@@ -18,6 +18,37 @@ html = md.convert(text)
 
 ## Configuration
 
+The configuration options are:
+
+Config param | Details
+------------ | -------
+base_url | Prepended to the file_path part of the URL. A `/` at the end of the base_url will be handled intelligently.
+end_url | Appended to the file_path part of the URL. If end_url is given (non-empty), then any `/` at the end of the file_path part in the URL is removed. If the end_url matches the extension of the file_path part, it will be ignored, for example, if end_url is `.html` and the wikilink provided is `[[/path/to/myfile.html]]`, then the URL will be `/path/to/myfile.html` not `/path/to/myfile.html.html`.
+url_whitespace | Replace all whitespace in the file path with this character (string) when building the URL.
+label_case | Choose case of the label. Available options: titlecase, capitalize, none. Capitalize will capitalize the first character only.
+html_class | Set custom HTML classes on the anchor tag. It does not add classes rather resets it.
+build_url | A callable that returns the URL string. [Default build_url](#the-build-url-callable)
+
+### Configuration through meta data
+
+Configuration can also be passed through metadata (markdown.extensions.meta).
+
+We recognize the following template:
+
+```md
+wiki_base_url: /static/
+wiki_end_url: 
+wiki_url_whitespace: _
+wiki_label_case: capitalize
+wiki_html_class: wikilink
+
+The first line of the document
+```
+
+
+### An example with configuration:
+
+
 ```python
 md_configs = {
                 'mdx_wikilink_plus': {
@@ -26,26 +57,24 @@ md_configs = {
                     'url_whitespace': '-',
                     'label_case': 'titlecase',
                     'html_class': 'a-custom-class',
-                    'build_url': build_url, # A callable
+                    #'build_url': build_url, # A callable
                     # all of the above config params are optional
                 },
              }
-text = "[[wikilink]]"
-md = markdown.Markdown(extensions=['mdx_wikilink_plus'], extension_configs=md_configs)
-html = md.convert(text)
-```
 
-### An example with the above configuration:
 
-For the markdown:
-
-```md
+text = """
 [[/path/to/file-name]]
 
 [[/path/to/file name/?a=b&b=c]]
+"""
+
+
+md = markdown.Markdown(extensions=['mdx_wikilink_plus'], extension_configs=md_configs)
+print(md.convert(text))
 ```
 
-the output will be:
+The output will be:
 
 ```html
 <p><a class="a-custom-class" href="/static/path/to/file-name.html">File Name</a></p>
@@ -56,7 +85,7 @@ the output will be:
     `end_url` is added at the end of the file-path part in the URL.
 
 
-# Examples
+# More examples
 
 Our test markdown:
 
@@ -159,7 +188,7 @@ the output will be:
 ```
 
 
-# The build_url callable:
+# The build_url callable
 
 The default `build_url` function is defined as:
 
