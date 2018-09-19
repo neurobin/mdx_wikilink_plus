@@ -75,6 +75,8 @@ Markdown | HTML Preview
 
 # The build_url callable:
 
+The default `build_url` function is defined as:
+
 ```python
 def build_url(urlo, base, end, url_whitespace):
     """ Build and return a valid url.
