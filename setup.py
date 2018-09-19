@@ -14,7 +14,7 @@ def get_readme(filename):
     return content
 
 setup(name="mdx_wikilink_plus",
-      version="1.0.0",
+      version="1.0.1",
       author="Md. Jahidul Hamid",
       author_email="jahidulhamid@yahoo.com",
       description="A wikilink extension for Python Markdown",
@@ -23,6 +23,7 @@ setup(name="mdx_wikilink_plus",
       url="https://github.com/neurobin/mdx_wikilink_plus",
       packages=["mdx_wikilink_plus"],
       long_description=get_readme("README.md"),
+      long_description_content_type="text/markdown",
       classifiers=[
         # See: https://pypi.python.org/pypi?:action=list_classifiers
         'Development Status :: 5 - Production/Stable',
