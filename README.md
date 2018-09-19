@@ -70,7 +70,7 @@ Markdown | HTML
 `[[https://www.example.com/?]]` | <a class="wikilink" href="https://www.example.com/">www.example.com</a>
 `[[https://www.example.com/?a=b&b=c]]` | <a class="wikilink" href="https://www.example.com/?a=b&amp;b=c">www.example.com</a>
 `[[https://www.example.com/example-tutorial]]` | <a class="wikilink" href="https://www.example.com/example-tutorial">Example Tutorial</a>
-`[[https://www.example.com/example-tutorial | Example Tutorial]]` | <a class="wikilink" href="https://www.example.com/example-tutorial">Example Tutorial</a>
+`[[https://www.example.com/example-tutorial \| Example Tutorial]]` | <a class="wikilink" href="https://www.example.com/example-tutorial">Example Tutorial</a>
 
 
 # The build_url callable:
