@@ -29,6 +29,8 @@ label_case | Choose case of the label. Available options: titlecase, capitalize,
 html_class | Set custom HTML classes on the anchor tag. It does not add classes rather it resets any previously set value.
 build_url | A callable that returns the URL string. [Default build_url callable](#the-build_url-callable)
 
+**None of the configs apply on absolute URLs except html_class and build_url. (Yes, label_case won't work either)**
+
 ### Configuration through meta data
 
 Configuration can also be passed through metadata (markdown.extensions.meta).
