@@ -5,8 +5,8 @@ Converts wikilinks (`[[wikilink]]`) to relative links.
 
 The geneal formats are:
 
-1. Full: `[[ target | label ]]`
-2. Without label: `[[wikilink]]`
+1. With explicit label: `[[ target | label ]]`
+2. Without explicit label: `[[wikilink]]`
 
 # Usage
 
