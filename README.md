@@ -26,7 +26,7 @@ md_configs = {
                     'url_whitespace': '-',
                     'label_case': 'titlecase',
                     'html_class': 'a-custom-class',
-                    #'build_url': build_url, # A callable
+                    'build_url': build_url, # A callable
                     # all of the above config params are optional
                 },
              }
