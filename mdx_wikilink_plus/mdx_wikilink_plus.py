@@ -19,12 +19,10 @@ try:
     from urllib.parse import urljoin
     from urllib.parse import urlparse
     from urllib.parse import urlunparse
-    from urllib.parse import quote_plus
 except ImportError:
     from urlparse import urljoin
     from urlparse import urlparse
     from urlparse import urlunparse
-    from urllib import quote_plus
 import markdown
 from markdown.util import etree
 import re
