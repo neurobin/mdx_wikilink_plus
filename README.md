@@ -39,35 +39,35 @@ html = md.convert(text)
 
 `[[wikilink]]` will be converted to:
 
-```
+```html
 <a class="wikilink" href="wikilink">Wikilink</a>
 ```
 
 
 `[[/path/to/file name]]` will be converted to:
 
-```
+```html
 <a class="wikilink" href="/path/to/file-name">File Name</a>
 ```
 
 
 `[[/path/to/file_name]]` will be converted to:
 
-```
+```html
 <a class="wikilink" href="/path/to/file_name">File Name</a>
 ```
 
 
 `[[/path/to/file-name]]` will be converted to:
 
-```
+```html
 <a class="wikilink" href="/path/to/file-name">File Name</a>
 ```
 
 
 `[[/path/to/file name/?a=b&b=c]]` will be converted to:
 
-```
+```html
 <a class="wikilink" href="/path/to/file-name/?a=b&amp;b=c">File Name</a>
 ```
 
@@ -81,35 +81,35 @@ html = md.convert(text)
 
 `[[/path/to/file name.html?a=b&b=c]]` will be converted to:
 
-```
+```html
 <a class="wikilink" href="/path/to/file-name.html?a=b&amp;b=c">File Name</a>
 ```
 
 
 `[[https://www.example.com/?]]` will be converted to:
 
-```
+```html
 <a class="wikilink" href="https://www.example.com/">www.example.com</a>
 ```
 
 
 `[[https://www.example.com/?a=b&b=c]]` will be converted to:
 
-```
+```html
 <a class="wikilink" href="https://www.example.com/?a=b&amp;b=c">www.example.com</a>
 ```
 
 
 `[[https://www.example.com/example-tutorial]]` will be converted to:
 
-```
+```html
 <a class="wikilink" href="https://www.example.com/example-tutorial">Example Tutorial</a>
 ```
 
 
 `[[https://www.example.com/example-tutorial | Example Tutorial]]` will be converted to:
 
-```
+```html
 <a class="wikilink" href="https://www.example.com/example-tutorial">Example Tutorial</a>
 ```
 
