@@ -58,8 +58,8 @@ the output will be:
 
 # Example outputs without any config
 
-Markdown | HTML
--------- | ----
+Markdown | HTML Preview
+-------- | ------------
 `[[wikilink]]` | <a class="wikilink" href="wikilink">Wikilink</a>
 `[[/path/to/file name]]` | <a class="wikilink" href="/path/to/file-name">File Name</a>
 `[[/path/to/file_name]]` | <a class="wikilink" href="/path/to/file_name">File Name</a>
