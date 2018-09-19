@@ -3,7 +3,12 @@ from __future__ import unicode_literals
 import os
 import codecs
 from setuptools import setup
+from distutils.util import convert_path
 
+main_ns = {}
+ver_path = convert_path('mdx_wikilink_plus/version.py')
+with open(ver_path) as ver_file:
+    exec(ver_file.read(), main_ns)
 
 def get_readme(filename):
     if not os.path.exists(filename):
@@ -14,7 +19,7 @@ def get_readme(filename):
     return content
 
 setup(name="mdx_wikilink_plus",
-      version="1.0.2",
+      version=main_ns['__version__'],
       author="Md. Jahidul Hamid",
       author_email="jahidulhamid@yahoo.com",
       description="A wikilink extension for Python Markdown",

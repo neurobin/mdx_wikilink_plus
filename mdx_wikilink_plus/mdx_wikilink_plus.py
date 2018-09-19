@@ -29,8 +29,9 @@ import markdown
 from markdown.util import etree
 import re
 import os
+from . import version
 
-__version__ = "1.0.2"
+__version__ = version.__version__
 
 
 WIKILINK_PLUS_RE = r'\[\[\s*(?P<target>[^][|]+?)(\s*\|\s*(?P<label>[^][]+))?\s*\]\]'
