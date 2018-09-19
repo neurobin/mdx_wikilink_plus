@@ -3,6 +3,12 @@ Converts wikilinks (`[[wikilink]]`) to relative links. Absolute links are kept a
 
 **You should not use markdown.extensions.wikilinks along with this one. This extension is designed to provide the functionalities of markdown.extensions.wikilinks along with some extra features. Choose either one.**
 
+# Install
+
+```bash
+pip install mdx_wikilink_plus
+```
+
 # Wikilink syntax
 
 The geneal formats are:

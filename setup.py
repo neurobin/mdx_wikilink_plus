@@ -14,7 +14,7 @@ def get_readme(filename):
     return content
 
 setup(name="mdx_wikilink_plus",
-      version="1.0.1",
+      version="1.0.2",
       author="Md. Jahidul Hamid",
       author_email="jahidulhamid@yahoo.com",
       description="A wikilink extension for Python Markdown",
