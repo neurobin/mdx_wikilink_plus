@@ -5,9 +5,9 @@ WikiLinkPlus Extension for Python-Markdown
 
 Converts [[WikiLinkPlus]] to relative links.
 
-See <https://github.com/neurobin/WikiLinkPlusPlus> for documentation.
+See <https://github.com/neurobin/mdx_wikilink_plus> for documentation.
 
-Copyright Md. Jahidul Hamid <https://github.com/neurobin>
+Copyright Md. Jahidul Hamid <jahidulhamid@yahoo.com>
 
 License: [BSD](http://www.opensource.org/licenses/bsd-license.php)
 
@@ -35,15 +35,24 @@ __version__ = "1.0.0"
 
 WIKILINK_PLUS_RE = r'\[\[\s*(?P<target>[^][|]+?)(\s*\|\s*(?P<label>[^][]+))?\s*\]\]'
 
-def build_url(target, base, end, url_whitespace):
-    """ Build a valid url from the label, a base, and an end. """
-    clean_target = re.sub(r'\s+', url_whitespace, target)
-    url = ("%s%s%s" % (base, clean_target, end))
-    if base.endswith('/'):
-        url = "%s%s%s" % (base, clean_target.lstrip('/'), end)
-    elif base and not clean_target.startswith('/'):
-        url = "%s/%s%s" % (base, clean_target, end)
-    return urlunparse(urlparse(url))
+def build_url(urlo, base, end, url_whitespace):
+    """ Build a valid url from urlo, base, and an end. """
+    if not urlo.netloc:
+        if not end:
+            clean_target = re.sub(r'\s+', url_whitespace, urlo.path)
+        else:
+            clean_target = re.sub(r'\s+', url_whitespace, urlo.path.rstrip('/'))
+            if clean_target.endswith(end):
+                end = ''
+        if base.endswith('/'):
+            path = "%s%s%s" % (base, clean_target.lstrip('/'), end)
+        elif base and not clean_target.startswith('/'):
+            path = "%s/%s%s" % (base, clean_target, end)
+        else:
+            path = "%s%s%s" % (base, clean_target, end)
+        urlo = urlo._replace(path=path)
+    return urlunparse(urlo)
+        
 
 def title(subject):
     exceptions = ['a', 'an', 'the', 'v', 'vs', 'am', 'at', 'and', 'as', 'but','by', 'en', 'for', 'if', 'be', 'in', 'of', 'on', 'or', 'to', 'via',]
@@ -66,7 +75,7 @@ class WikiLinkPlusExtension(markdown.Extension):
             'end_url': ['', 'String to append to end of URL.'],
             'url_whitespace': ['-', 'String to replace white space in the URL'],
             'label_case':['titlecase', "Other valid values are: capitalize and none"],
-            'html_class': ['wikilink wikilinkplus', 'CSS hook. Leave blank for none.'],
+            'html_class': ['wikilink', 'CSS hook. Leave blank for none.'],
             'build_url': [build_url, 'Callable formats URL from label.'],
         }
         super(WikiLinkPlusExtension, self).__init__(*args, **kwargs)
@@ -96,12 +105,10 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
         if tl:
             base_url, end_url, url_whitespace, label_case, html_class = self._getMeta()
             urlo = urlparse(tl)
-            print(urlo)
-            path = urlo.path
-            clean_path = path.strip().rstrip('/')
+            clean_path = urlo.path.rstrip('/')
             if not label:
                 if clean_path:
-                    label = re.sub(r'[_-]', ' ', os.path.basename(clean_path)).strip()
+                    label = re.sub(r'[\s_-]+', ' ', re.sub(r'\..*$', r'', os.path.basename(clean_path))).strip()
                     if label_case.lower() == 'titlecase':
                         label = title(label)
                     elif label_case.lower() == 'capitalize':
@@ -110,11 +117,7 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
                     label = urlo.netloc
                 else:
                     label = tl
-            url = ''
-            if urlo.netloc:
-                url = urlunparse(urlo)
-            if not url:
-                url = build_url(path, base_url, end_url, url_whitespace)
+            url = self.config['build_url'][0](urlo, base_url, end_url, url_whitespace)
             a = etree.Element('a')
             a.text = label
             a.set('href', url)
@@ -136,13 +139,12 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
                 base_url = self.md.Meta['wiki_base_url'][0]
             if 'wiki_end_url' in self.md.Meta:
                 end_url = self.md.Meta['wiki_end_url'][0]
-            if 'wiki_html_class' in self.md.Meta:
-                html_class = self.md.Meta['wiki_html_class'][0]
-            if 'wiki_label_case' in self.md.Meta:
-                label_case = self.md.Meta['wiki_label_case'][0]
             if 'wiki_url_whitespace' in self.md.Meta:
                 url_whitespace = self.md.Meta['wiki_url_whitespace'][0]
-                
+            if 'wiki_label_case' in self.md.Meta:
+                label_case = self.md.Meta['wiki_label_case'][0]
+            if 'wiki_html_class' in self.md.Meta:
+                html_class = self.md.Meta['wiki_html_class'][0]
         return base_url, end_url, url_whitespace, label_case, html_class
 
 
@@ -150,24 +152,5 @@ def makeExtension(*args, **kwargs):  # pragma: no cover
     return WikiLinkPlusExtension(*args, **kwargs)
 
 if __name__ == "__main__":
-    text = """
-wiki_base_url: /static/
-wiki_label_case: capitalize
-wiki_url_whitespace: _
-
-[[wikilink]]
-
-[[/path/to/file name]]
-
-[[/path/to/file name/?a=b&b=c]]
-
-[[https://www.example.com/?]]
-
-[[https://www.example.com/example-tutorial]]
-
-[[https://www.example.com/example-tutorial | Example Tutorial]]
-
-    """.strip()
-    from markdown.extensions.meta import MetaExtension
-    md = markdown.Markdown(extensions=[WikiLinkPlusExtension(), MetaExtension()])
-    print(md.convert(text))
+    import doctest
+    doctest.testmod()
