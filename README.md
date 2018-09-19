@@ -1,6 +1,8 @@
 
 Converts wikilinks (`[[wikilink]]`) to relative links. Absolute links are kept as is.
 
+**You should not use markdown.extensions.wikilinks along with this one. This extension is designed to provide the functionalities of markdown.extensions.wikilinks along with some extra features. Choose either one.**
+
 # Wikilink syntax
 
 The geneal formats are:
