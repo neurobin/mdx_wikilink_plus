@@ -56,7 +56,7 @@ the output will be:
     `end_url` is added at the end of the file-path part in the URL.
 
 
-# Examples without any config
+# Example outputs without any config
 
 `[[wikilink]]` will be converted to:
 
