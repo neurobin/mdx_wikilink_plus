@@ -3,7 +3,7 @@
 WikiLinkPlus Extension for Python-Markdown
 ===========================================
 
-Converts [[WikiLinkPlus]] to relative links.
+Converts [[WikiLinks]] to relative links.
 
 See <https://github.com/neurobin/mdx_wikilink_plus> for documentation.
 
@@ -36,7 +36,25 @@ __version__ = "1.0.0"
 WIKILINK_PLUS_RE = r'\[\[\s*(?P<target>[^][|]+?)(\s*\|\s*(?P<label>[^][]+))?\s*\]\]'
 
 def build_url(urlo, base, end, url_whitespace):
-    """ Build a valid url from urlo, base, and an end. """
+    """ Build and return a valid url.
+        
+    Parameters
+    ----------
+    
+    urlo            A ParseResult object returned by urlparse
+    
+    base            base_url from config
+    
+    end             end_url from config
+    
+    url_whitespace  url_whitespace from config
+    
+    Returns
+    -------
+    
+    URL string
+    
+    """
     if not urlo.netloc:
         if not end:
             clean_target = re.sub(r'\s+', url_whitespace, urlo.path)
@@ -55,6 +73,7 @@ def build_url(urlo, base, end, url_whitespace):
         
 
 def title(subject):
+    """Return title cased version of the given subject string"""
     exceptions = ['a', 'an', 'the', 'v', 'vs', 'am', 'at', 'and', 'as', 'but','by', 'en', 'for', 'if', 'be', 'in', 'of', 'on', 'or', 'to', 'via',]
     slst = list(filter(None, re.split(r'[ \t]+', subject)))
     res = []
@@ -68,6 +87,7 @@ def title(subject):
     return ' '.join(res)
 
 class WikiLinkPlusExtension(markdown.Extension):
+    """WikiLinkPlus Extension class for markdown"""
 
     def __init__(self,  *args, **kwargs):
         self.config = {
@@ -99,6 +119,7 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
         return self.compiled_re
 
     def handleMatch(self, m):
+        """Return an a element if regex matched"""
         d = m.groupdict()
         tl = d.get('target')
         label = d.get('label')
