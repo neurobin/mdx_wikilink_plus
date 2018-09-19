@@ -136,7 +136,7 @@ def test_with_meta():
     """.strip()
     md2 = markdown.Markdown(extensions=[WikiLinkPlusExtension(), MetaExtension()]) 
     html = md2.convert(meta_text+"\n\n"+text)
-    print(html)
+    # ~ print(html)
     assert(html == output)
 
 if __name__ == "__main__":
