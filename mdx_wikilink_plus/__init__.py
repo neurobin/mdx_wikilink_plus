@@ -1,4 +1,3 @@
-import markdown
 
 name = "mdx_wikilink_plus"
 
