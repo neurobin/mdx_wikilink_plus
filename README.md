@@ -1,5 +1,5 @@
 
-Converts wikilinks (`[[wikilink]]`) to relative links. Absolute links are kept as is.
+Converts wikilinks (`[[wikilink]]`) to relative links. Absolute links are kept as is (with an automatic label made from the file path part in the URL if label is not given explicitly).
 
 **You should not use markdown.extensions.wikilinks along with this one. This extension is designed to provide the functionalities of markdown.extensions.wikilinks along with some extra features. Choose either one.**
 
@@ -13,8 +13,8 @@ pip install mdx_wikilink_plus
 
 The geneal formats are:
 
-1. With explicit label: `[[ target | label ]]`
-2. Without explicit label: `[[wikilink]]`
+1. Without explicit label: `[[wikilink]]`
+2. With explicit label: `[[ link | label ]]`
 
 # Usage
 
@@ -24,18 +24,39 @@ md = markdown.Markdown(extensions=['mdx_wikilink_plus'])
 html = md.convert(text)
 ```
 
+# Quick examples
+
+`[[/path/to/file-name]]` will become:
+
+```html
+<p><a class="wikilink" href="/path/to/file-name">File Name</a></p>
+```
+
+`[[https://www.example.com/example-tutorial]]` will become:
+
+```html
+<p><a class="wikilink" href="https://www.example.com/example-tutorial">Example Tutorial</a></p>
+```
+
+and `[[https://www.example.com/?a=b&b=c]]` will become:
+
+```html
+<p><a class="wikilink" href="https://www.example.com/?a=b&amp;b=c">www.example.com</a></p>
+```
+
+
 ## Configuration
 
 The configuration options are:
 
-Config param | Details
------------- | -------
-base_url | Prepended to the file_path part of the URL. A `/` at the end of the base_url will be handled intelligently.
-end_url | Appended to the file_path part of the URL. If end_url is given (non-empty), then any `/` at the end of the file_path part in the URL is removed. If the end_url matches the extension of the file_path part, it will be ignored, for example, if end_url is `.html` and the wikilink provided is `[[/path/to/myfile.html]]`, then the URL will be `/path/to/myfile.html` not `/path/to/myfile.html.html`.
-url_whitespace | Replace all whitespace in the file_path path with this character (string) when building the URL.
-label_case | Choose case of the label. Available options: titlecase, capitalize, none. Capitalize will capitalize the first character only.
-html_class | Set custom HTML classes on the anchor tag. It does not add classes rather it resets any previously set value.
-build_url | A callable that returns the URL string. [Default build_url callable](#the-build_url-callable)
+Config param | Default | Details
+------------ | ------- | -------
+base_url | `''` | Prepended to the file_path part of the URL. A `/` at the end of the base_url will be handled intelligently.
+end_url | `''` | Appended to the file_path part of the URL. If end_url is given (non-empty), then any `/` at the end of the file_path part in the URL is removed. If the end_url matches the extension of the file_path part, it will be ignored, for example, if end_url is `.html` and the wikilink provided is `[[/path/to/myfile.html]]`, then the URL will be `/path/to/myfile.html` not `/path/to/myfile.html.html`.
+url_whitespace | `'-'` | Replace all whitespace in the file_path path with this character (string) when building the URL.
+label_case | `'titlecase'` | Choose case of the label. Available options: titlecase, capitalize, none. Capitalize will capitalize the first character only.
+html_class | `'wikilink'` | Set custom HTML classes on the anchor tag. It does not add classes rather it resets any previously set value.
+build_url | `mdx_wikilink_plus.build_url` | A callable that returns the URL string. [Default build_url callable](#the-build_url-callable)
 
 **None of the configs apply on absolute URLs except html_class and build_url. (Yes, label_case won't work either)**
 
