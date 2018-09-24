@@ -86,7 +86,7 @@ def title(subject):
 class WikiLinkPlusExtension(markdown.Extension):
     """WikiLinkPlus Extension class for markdown"""
 
-    def __init__(self,  *args, **kwargs):
+    def __init__(self,  configs={}):
         self.config = {
             'base_url': ['', 'String to append to beginning or URL.'],
             'end_url': ['', 'String to append to end of URL.'],
@@ -95,7 +95,9 @@ class WikiLinkPlusExtension(markdown.Extension):
             'html_class': ['wikilink', 'CSS hook. Leave blank for none.'],
             'build_url': [build_url, 'Callable formats URL from label.'],
         }
-        super(WikiLinkPlusExtension, self).__init__(*args, **kwargs)
+        # ~ super(WikiLinkPlusExtension, self).__init__(*args, **kwargs)
+        for k, v in configs.items():
+            self.setConfig(k, v)
 
     def extendMarkdown(self, md, md_globals):
         self.md = md
