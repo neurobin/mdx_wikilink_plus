@@ -1,0 +1,17 @@
+sudo: required
+dist: trusty
+language: python
+python:
+  - "2.7"
+  - "3.2"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "nightly"
+# command to install dependencies
+install:
+ - pip install markdown
+script: 
+ - python -m mdx_wikilink_plus.test
+

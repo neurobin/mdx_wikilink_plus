@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/neurobin/mdx_wikilink_plus.svg?branch=release)](https://travis-ci.org/neurobin/mdx_wikilink_plus)
 
 Converts wikilinks (`[[wikilink]]`) to relative links. Absolute links are kept as is (with an automatic label made from the file path part in the URL if label is not given explicitly).
 
