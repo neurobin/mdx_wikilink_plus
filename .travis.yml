@@ -11,7 +11,7 @@ python:
   - "nightly"
 # command to install dependencies
 install:
- - python setup.py install
+ - pip install markdown
 script: 
  - python -m mdx_wikilink_plus.test
 
