@@ -42,5 +42,5 @@ setup(name="mdx_wikilink_plus",
         'Topic :: Text Processing :: Filters',
         'Topic :: Text Processing :: Markup',
       ],
-      install_requires=["Markdown>=2.6",],
+      install_requires=["Markdown>=3.0",],
 test_suite="mdx_wikilink_plus.test")

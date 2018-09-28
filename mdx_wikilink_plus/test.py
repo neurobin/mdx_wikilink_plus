@@ -2,6 +2,7 @@
 from __future__ import absolute_import
 from __future__ import unicode_literals
 
+import unittest
 import markdown
 from markdown.extensions.meta import MetaExtension
 from mdx_wikilink_plus.mdx_wikilink_plus import WikiLinkPlusExtension
@@ -63,8 +64,10 @@ md_configs2 = {
                 },
              }
 
-def test_without_config():
-    output = """
+class TestMethods(unittest.TestCase):
+    
+    def test_without_config(self):
+        output = """
 <p><a class="wikilink" href="wikilink">Wikilink</a>    <code>[[wikilink]]</code></p>
 <p><a class="wikilink" href="/path/to/file-name">File Name</a></p>
 <p><a class="wikilink" href="/path/to/file_name">File Name</a></p>
@@ -76,14 +79,14 @@ def test_without_config():
 <p><a class="wikilink" href="https://www.example.com/?a=b&amp;b=c">www.example.com</a></p>
 <p><a class="wikilink" href="https://www.example.com/example-tutorial">Example Tutorial</a></p>
 <p><a class="wikilink" href="https://www.example.com/example-tutorial">Example Tutorial</a></p>
-""".strip()
-    md = markdown.Markdown(extensions=[WikiLinkPlusExtension()])
-    html = md.convert(text)
-    # ~ print(html)
-    assert(html == output)
+    """.strip()
+        md = markdown.Markdown(extensions=[WikiLinkPlusExtension()])
+        html = md.convert(text)
+        # ~ print(html)
+        self.assertEqual(html, output)
 
-def test_with_config1():
-    output = """
+    def test_with_config1(self):
+        output = """
 <p><a class="a-custom-class" href="/static/wikilink.html">Wikilink</a>    <code>[[wikilink]]</code></p>
 <p><a class="a-custom-class" href="/static/path/to/file-name.html">File Name</a></p>
 <p><a class="a-custom-class" href="/static/path/to/file_name.html">File Name</a></p>
@@ -95,13 +98,13 @@ def test_with_config1():
 <p><a class="a-custom-class" href="https://www.example.com/?a=b&amp;b=c">www.example.com</a></p>
 <p><a class="a-custom-class" href="https://www.example.com/example-tutorial">Example Tutorial</a></p>
 <p><a class="a-custom-class" href="https://www.example.com/example-tutorial">Example Tutorial</a></p>
-    """.strip()
-    md2 = markdown.Markdown(extensions=[WikiLinkPlusExtension(md_configs1['mdx_wikilink_plus'])]) 
-    html = md2.convert(text)
-    assert(html == output)
+        """.strip()
+        md2 = markdown.Markdown(extensions=[WikiLinkPlusExtension(md_configs1['mdx_wikilink_plus'])]) 
+        html = md2.convert(text)
+        self.assertEqual(html, output)
 
-def test_with_config2():
-    output = """
+    def test_with_config2(self):
+        output = """
 <p><a class="a-custom-class" href="https://dummy">Wikilink</a>    <code>[[wikilink]]</code></p>
 <p><a class="a-custom-class" href="https://dummy">File Name</a></p>
 <p><a class="a-custom-class" href="https://dummy">File Name</a></p>
@@ -113,15 +116,15 @@ def test_with_config2():
 <p><a class="a-custom-class" href="https://dummy">www.example.com</a></p>
 <p><a class="a-custom-class" href="https://dummy">Example Tutorial</a></p>
 <p><a class="a-custom-class" href="https://dummy">Example Tutorial</a></p>
-    """.strip()
-    md2 = markdown.Markdown(extensions=[WikiLinkPlusExtension(md_configs2['mdx_wikilink_plus'])]) 
-    html = md2.convert(text)
-    # ~ print(html)
-    assert(html == output)
+        """.strip()
+        md2 = markdown.Markdown(extensions=[WikiLinkPlusExtension(md_configs2['mdx_wikilink_plus'])]) 
+        html = md2.convert(text)
+        # ~ print(html)
+        self.assertEqual(html, output)
 
 
-def test_with_meta():
-    output = """
+    def test_with_meta(self):
+        output = """
 <p><a class="wikilink" href="/static/wikilink">Wikilink</a>    <code>[[wikilink]]</code></p>
 <p><a class="wikilink" href="/static/path/to/file_name">File name</a></p>
 <p><a class="wikilink" href="/static/path/to/file_name">File name</a></p>
@@ -133,14 +136,11 @@ def test_with_meta():
 <p><a class="wikilink" href="https://www.example.com/?a=b&amp;b=c">www.example.com</a></p>
 <p><a class="wikilink" href="https://www.example.com/example-tutorial">Example tutorial</a></p>
 <p><a class="wikilink" href="https://www.example.com/example-tutorial">Example Tutorial</a></p>
-    """.strip()
-    md2 = markdown.Markdown(extensions=[WikiLinkPlusExtension(), MetaExtension()]) 
-    html = md2.convert(meta_text+"\n\n"+text)
-    # ~ print(html)
-    assert(html == output)
+        """.strip()
+        md2 = markdown.Markdown(extensions=[WikiLinkPlusExtension(), MetaExtension()]) 
+        html = md2.convert(meta_text+"\n\n"+text)
+        # ~ print(html)
+        self.assertEqual(html, output)
 
 if __name__ == "__main__":
-    test_without_config()
-    test_with_config1()
-    test_with_config2()
-    test_with_meta()
+    unittest.main()

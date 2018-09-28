@@ -99,12 +99,13 @@ class WikiLinkPlusExtension(markdown.Extension):
         for k, v in configs.items():
             self.setConfig(k, v)
 
-    def extendMarkdown(self, md, md_globals):
+    def extendMarkdown(self, md):
         self.md = md
 
         # append to end of inline patterns
         ext = WikiLinkPlusPattern(self.config, md)
-        md.inlinePatterns.add('wikilink_plus', ext, "<not_strong")
+        # ~ md.inlinePatterns.add('wikilink_plus', ext, "<not_strong")
+        md.inlinePatterns.register(ext, 'wikilink_plus', 76)
 
 
 class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
