@@ -29,6 +29,7 @@ from . import version
 
 __version__ = version.__version__
 
+MARKDOWN_MAJOR = markdown.version_info[0]
 
 WIKILINK_PLUS_RE = r'\[\[\s*(?P<target>[^][|]+?)(\s*\|\s*(?P<label>[^][]+))?\s*\]\]'
 
@@ -99,13 +100,16 @@ class WikiLinkPlusExtension(markdown.Extension):
         for k, v in configs.items():
             self.setConfig(k, v)
 
-    def extendMarkdown(self, md):
+    def extendMarkdown(self, *args):
+        md = args[0]
         self.md = md
 
         # append to end of inline patterns
         ext = WikiLinkPlusPattern(self.config, md)
-        # ~ md.inlinePatterns.add('wikilink_plus', ext, "<not_strong")
-        md.inlinePatterns.register(ext, 'wikilink_plus', 76)
+        if MARKDOWN_MAJOR == 2:
+            md.inlinePatterns.add('wikilink_plus', ext, "<not_strong")
+        else:
+            md.inlinePatterns.register(ext, 'wikilink_plus', 76)
 
 
 class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
