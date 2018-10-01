@@ -174,7 +174,7 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
 
 
 def makeExtension(*args, **kwargs):  # pragma: no cover
-    return WikiLinkPlusExtension(*args, **kwargs)
+    return WikiLinkPlusExtension(kwargs)
 
 if __name__ == "__main__":
     import doctest
