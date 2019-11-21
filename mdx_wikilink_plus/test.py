@@ -7,19 +7,22 @@ import markdown
 from markdown.extensions.meta import MetaExtension
 from mdx_wikilink_plus.mdx_wikilink_plus import WikiLinkPlusExtension
 
-def build_url(urlo, base, end, url_whitespace):
+def build_url(urlo, base, end, url_whitespace, url_case):
     return "https://dummy"
 
 meta_text = """
 wiki_base_url: /static/
 wiki_end_url: 
 wiki_url_whitespace: _
+wiki_url_case: lowercase
 wiki_label_case: capitalize
 wiki_html_class: wikilink
 """.strip()
 
 text = """
 [[wikilink]]    `[[wikilink]]`
+
+[[Wikilink]]    `[[Wikilink]]`
 
 [[/path/to/file name]]
 
@@ -47,6 +50,7 @@ md_configs1 = {
                     'base_url': '/static',
                     'end_url': '.html',
                     'url_whitespace': '-',
+                    'url_case': 'lowercase',
                     'label_case': 'titlecase',
                     'html_class': 'a-custom-class',
                 },
@@ -58,6 +62,7 @@ md_configs2 = {
                     'base_url': '/static',
                     'end_url': '.html',
                     'url_whitespace': '-',
+                    'url_case': 'uppercase',
                     'label_case': 'titlecase',
                     'html_class': 'a-custom-class',
                     'build_url': build_url,
@@ -69,6 +74,7 @@ class TestMethods(unittest.TestCase):
     def test_without_config(self):
         output = """
 <p><a class="wikilink" href="wikilink">Wikilink</a>    <code>[[wikilink]]</code></p>
+<p><a class="wikilink" href="Wikilink">Wikilink</a>    <code>[[Wikilink]]</code></p>
 <p><a class="wikilink" href="/path/to/file-name">File Name</a></p>
 <p><a class="wikilink" href="/path/to/file_name">File Name</a></p>
 <p><a class="wikilink" href="/path/to/file-name">File Name</a></p>
@@ -88,6 +94,7 @@ class TestMethods(unittest.TestCase):
     def test_with_config1(self):
         output = """
 <p><a class="a-custom-class" href="/static/wikilink.html">Wikilink</a>    <code>[[wikilink]]</code></p>
+<p><a class="a-custom-class" href="/static/wikilink.html">Wikilink</a>    <code>[[Wikilink]]</code></p>
 <p><a class="a-custom-class" href="/static/path/to/file-name.html">File Name</a></p>
 <p><a class="a-custom-class" href="/static/path/to/file_name.html">File Name</a></p>
 <p><a class="a-custom-class" href="/static/path/to/file-name.html">File Name</a></p>
@@ -106,6 +113,7 @@ class TestMethods(unittest.TestCase):
     def test_with_config2(self):
         output = """
 <p><a class="a-custom-class" href="https://dummy">Wikilink</a>    <code>[[wikilink]]</code></p>
+<p><a class="a-custom-class" href="https://dummy">Wikilink</a>    <code>[[Wikilink]]</code></p>
 <p><a class="a-custom-class" href="https://dummy">File Name</a></p>
 <p><a class="a-custom-class" href="https://dummy">File Name</a></p>
 <p><a class="a-custom-class" href="https://dummy">File Name</a></p>
@@ -126,6 +134,7 @@ class TestMethods(unittest.TestCase):
     def test_with_meta(self):
         output = """
 <p><a class="wikilink" href="/static/wikilink">Wikilink</a>    <code>[[wikilink]]</code></p>
+<p><a class="wikilink" href="/static/wikilink">Wikilink</a>    <code>[[Wikilink]]</code></p>
 <p><a class="wikilink" href="/static/path/to/file_name">File name</a></p>
 <p><a class="wikilink" href="/static/path/to/file_name">File name</a></p>
 <p><a class="wikilink" href="/static/path/to/file-name">File name</a></p>
