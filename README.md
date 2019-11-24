@@ -227,5 +227,5 @@ the output will be:
 
 # The build_url callable
 
-You can view the default [build_url](https://github.com/neurobin/mdx_wikilink_plus/blob/aac11674f2b7930667d2679765d47a9f67ee0450/mdx_wikilink_plus/mdx_wikilink_plus.py#L36) function [here](https://github.com/neurobin/mdx_wikilink_plus/blob/aac11674f2b7930667d2679765d47a9f67ee0450/mdx_wikilink_plus/mdx_wikilink_plus.py#L36).
+You can view the default [build_url](https://github.com/neurobin/mdx_wikilink_plus/blob/master/mdx_wikilink_plus/mdx_wikilink_plus.py#L36) function [here](https://github.com/neurobin/mdx_wikilink_plus/blob/master/mdx_wikilink_plus/mdx_wikilink_plus.py#L36).
 
