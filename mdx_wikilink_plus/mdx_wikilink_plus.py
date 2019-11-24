@@ -33,7 +33,7 @@ MARKDOWN_MAJOR = markdown.version_info[0]
 
 WIKILINK_PLUS_RE = r'\[\[\s*(?P<target>[^][|]+?)(\s*\|\s*(?P<label>[^][]+))?\s*\]\]'
 
-def build_url(urlo, base, end, url_whitespace):
+def build_url(urlo, base, end, url_whitespace, url_case):
     """ Build and return a valid url.
         
     Parameters
@@ -46,6 +46,8 @@ def build_url(urlo, base, end, url_whitespace):
     end             end_url from config
     
     url_whitespace  url_whitespace from config
+    
+    url_case        url_case from config
     
     Returns
     -------
@@ -66,7 +68,12 @@ def build_url(urlo, base, end, url_whitespace):
             path = "%s/%s%s" % (base, clean_target, end)
         else:
             path = "%s%s%s" % (base, clean_target, end)
-        urlo = urlo._replace(path=path)
+        if url_case == 'lowercase':
+            urlo = urlo._replace(path=path.lower() )
+        elif url_case == 'uppercase':
+            urlo = urlo._replace(path=path.upper() )
+        else:
+            urlo = urlo._replace(path=path)
     return urlunparse(urlo)
         
 
@@ -93,6 +100,7 @@ class WikiLinkPlusExtension(markdown.Extension):
             'end_url': ['', 'String to append to end of URL.'],
             'url_whitespace': ['-', 'String to replace white space in the URL'],
             'label_case':['titlecase', "Other valid values are: capitalize and none"],
+            'url_case':['none', "Other valid values are: lowercase and uppercase"],
             'html_class': ['wikilink', 'CSS hook. Leave blank for none.'],
             'build_url': [build_url, 'Callable formats URL from label.'],
         }
@@ -128,7 +136,7 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
         tl = d.get('target')
         label = d.get('label')
         if tl:
-            base_url, end_url, url_whitespace, label_case, html_class = self._getMeta()
+            base_url, end_url, url_whitespace, url_case, label_case, html_class = self._getMeta()
             urlo = urlparse(tl)
             clean_path = urlo.path.rstrip('/')
             if not label:
@@ -142,7 +150,7 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
                     label = urlo.netloc
                 else:
                     label = tl
-            url = self.config['build_url'][0](urlo, base_url, end_url, url_whitespace)
+            url = self.config['build_url'][0](urlo, base_url, end_url, url_whitespace, url_case)
             a = etree.Element('a')
             a.text = label
             a.set('href', url)
@@ -158,6 +166,7 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
         end_url = self.config['end_url'][0]
         url_whitespace = self.config['url_whitespace'][0]
         label_case = self.config['label_case'][0]
+        url_case = self.config['url_case'][0]
         html_class = self.config['html_class'][0]
         if hasattr(self.md, 'Meta'):
             if 'wiki_base_url' in self.md.Meta:
@@ -168,9 +177,11 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
                 url_whitespace = self.md.Meta['wiki_url_whitespace'][0]
             if 'wiki_label_case' in self.md.Meta:
                 label_case = self.md.Meta['wiki_label_case'][0]
+            if 'wiki_url_case' in self.md.Meta:
+                url_case = self.md.Meta['wiki_url_case'][0]
             if 'wiki_html_class' in self.md.Meta:
                 html_class = self.md.Meta['wiki_html_class'][0]
-        return base_url, end_url, url_whitespace, label_case, html_class
+        return base_url, end_url, url_whitespace, url_case, label_case, html_class
 
 
 def makeExtension(*args, **kwargs):  # pragma: no cover
