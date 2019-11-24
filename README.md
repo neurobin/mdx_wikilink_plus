@@ -227,43 +227,5 @@ the output will be:
 
 # The build_url callable
 
-The default `build_url` function is defined as:
+You can view the default [build_url](https://github.com/neurobin/mdx_wikilink_plus/blob/aac11674f2b7930667d2679765d47a9f67ee0450/mdx_wikilink_plus/mdx_wikilink_plus.py#L36) function [here](https://github.com/neurobin/mdx_wikilink_plus/blob/aac11674f2b7930667d2679765d47a9f67ee0450/mdx_wikilink_plus/mdx_wikilink_plus.py#L36).
 
-```python
-def build_url(urlo, base, end, url_whitespace):
-    """ Build and return a valid url.
-        
-    Parameters
-    ----------
-    
-    urlo            A ParseResult object returned by urlparse
-    
-    base            base_url from config
-    
-    end             end_url from config
-    
-    url_whitespace  url_whitespace from config
-    
-    Returns
-    -------
-    
-    URL string
-    
-    """
-    if not urlo.netloc:
-        if not end:
-            clean_target = re.sub(r'\s+', url_whitespace, urlo.path)
-        else:
-            clean_target = re.sub(r'\s+', url_whitespace, urlo.path.rstrip('/'))
-            if clean_target.endswith(end):
-                end = ''
-        if base.endswith('/'):
-            path = "%s%s%s" % (base, clean_target.lstrip('/'), end)
-        elif base and not clean_target.startswith('/'):
-            path = "%s/%s%s" % (base, clean_target, end)
-        else:
-            path = "%s%s%s" % (base, clean_target, end)
-        urlo = urlo._replace(path=path)
-    return urlunparse(urlo)
-        
-```
