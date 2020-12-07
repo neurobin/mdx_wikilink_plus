@@ -19,6 +19,8 @@ The geneal formats are:
 
 # Usage
 
+`import markdown` then:
+
 ```python
 text = "[[wikilink]]"
 md = markdown.Markdown(extensions=['mdx_wikilink_plus'])
