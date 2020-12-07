@@ -2,7 +2,7 @@
 
 Converts wikilinks (`[[wikilink]]`) to relative links. Absolute links are kept as is (with an automatic label made from the file path part in the URL if label is not given explicitly).
 
-**You should not use markdown.extensions.wikilinks along with this one. This extension is designed to provide the functionalities of markdown.extensions.wikilinks along with some extra features. Choose either one.**
+**You must not use this extension with markdown.extensions.wikilinks. This extension is designed to provide the functionalities of markdown.extensions.wikilinks with some extra features. Choose either one.**
 
 # Install
 
