@@ -151,11 +151,25 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
                 else:
                     label = tl
             url = self.config['build_url'][0](urlo, base_url, end_url, url_whitespace, url_case)
-            a = etree.Element('a')
-            a.text = label
-            a.set('href', url)
-            if html_class:
-                a.set('class', html_class)
+            isimage = False
+            imagesuffixes = ['png', 'jpg', 'jpeg', 'gif']
+            for suffix in imagesuffixes:
+                if url.endswith('.' + suffix):
+                    isimage = True
+                    break
+            if not isimage:
+                # url = self.config['build_url'][0](urlo, base_url, end_url, url_whitespace, url_case)
+                a = etree.Element('a')
+                a.text = label
+                a.set('href', url)
+                if html_class:
+                    a.set('class', html_class)
+            else:
+                # need to clear end_url for images
+                # url = self.config['build_url'][0](urlo, base_url, '', url_whitespace, url_case)
+                a = etree.Element('img')
+                a.set('alt', label)
+                a.set('src', url)
         else:
             a = ''
         return a
