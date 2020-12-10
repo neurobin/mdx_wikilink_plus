@@ -168,7 +168,12 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
                 # need to clear end_url for images
                 # url = self.config['build_url'][0](urlo, base_url, '', url_whitespace, url_case)
                 a = etree.Element('img')
-                a.set('alt', label)
+                pipes = label.split('|')
+                for pipe in pipes:
+                    option = [option.strip() for option in pipe.split('=')]
+                    if option[0] == 'alt':
+                        a.set('alt', option[1])
+                        break
                 a.set('src', url)
         else:
             a = ''
