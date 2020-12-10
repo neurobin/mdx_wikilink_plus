@@ -151,23 +151,28 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
                     label = urlo.netloc
                 else:
                     label = tl
-            url = self.config['build_url'][0](urlo, base_url, end_url, url_whitespace, url_case)
+            if urlo.path != '/':
+                checkurl = urlo.path
+            else:
+                checkurl = urlo.netloc
             isimage = False
             imagesuffixes = ['png', 'jpg', 'jpeg', 'gif']
             for suffix in imagesuffixes:
-                if url.endswith('.' + suffix):
+                if checkurl.endswith('.' + suffix):
                     isimage = True
                     break
             if not isimage:
-                # url = self.config['build_url'][0](urlo, base_url, end_url, url_whitespace, url_case)
+                url = self.config['build_url'][0](urlo, base_url, end_url, url_whitespace, url_case)
                 a = etree.Element('a')
                 a.text = label
                 a.set('href', url)
                 if html_class:
                     a.set('class', html_class)
             else:
-                # need to clear end_url for images
-                # url = self.config['build_url'][0](urlo, base_url, '', url_whitespace, url_case)
+                # need to clear end_url and urlo.query for images
+                end_url = ''
+                # urlo.query = ''
+                url = self.config['build_url'][0](urlo, base_url, end_url, url_whitespace, url_case)
                 a = etree.Element('img')
                 pipes = label.split('|')
                 for pipe in pipes:
@@ -215,4 +220,3 @@ def makeExtension(*args, **kwargs):  # pragma: no cover
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
-
