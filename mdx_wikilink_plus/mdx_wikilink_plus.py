@@ -102,7 +102,7 @@ class WikiLinkPlusExtension(markdown.Extension):
             'label_case':['titlecase', "Other valid values are: capitalize and none"],
             'url_case':['none', "Other valid values are: lowercase and uppercase"],
             'html_class': ['wikilink', 'CSS hook. Leave blank for none.'],
-            'image_class': ['wikilink', 'CSS hook. Leave blank for none.'],
+            'image_class': ['wikilink-image', 'CSS hook. Leave blank for none.'],
             'build_url': [build_url, 'Callable formats URL from label.'],
         }
         # ~ super(WikiLinkPlusExtension, self).__init__(*args, **kwargs)
