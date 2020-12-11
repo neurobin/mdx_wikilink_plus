@@ -151,7 +151,7 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
                     label = urlo.netloc
                 else:
                     label = tl
-            if urlo.path != '/':
+            if urlo.path and urlo.path != '/':
                 checkurl = urlo.path
             else:
                 checkurl = urlo.netloc
@@ -169,9 +169,7 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
                 if html_class:
                     a.set('class', html_class)
             else:
-                # need to clear end_url and urlo.query for images
                 end_url = ''
-                # urlo.query = ''
                 url = self.config['build_url'][0](urlo, base_url, end_url, url_whitespace, url_case)
                 a = etree.Element('img')
                 pipes = label.split('|')
