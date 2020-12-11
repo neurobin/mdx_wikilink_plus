@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/neurobin/mdx_wikilink_plus.svg?branch=release)](https://travis-ci.org/neurobin/mdx_wikilink_plus)
 
-Converts wikilinks (`[[wikilink]]`) to relative links. Absolute links are kept as is (with an automatic label made from the file path part in the URL if label is not given explicitly).
+Converts wikilinks (`[[wikilink]]`) to relative links, including support for [GitHub image variant](https://docs.github.com/en/free-pro-team@latest/github/building-a-strong-community/editing-wiki-content#linking-to-images-in-a-repository). Absolute links are kept as is (with an automatic label made from the file path part in the URL if label is not given explicitly).
 
 **You must not use this extension with markdown.extensions.wikilinks. This extension is designed to provide the functionalities of markdown.extensions.wikilinks with some extra features. Choose either one.**
 
@@ -16,6 +16,10 @@ The geneal formats are:
 
 1. Without explicit label: `[[wikilink]]`
 2. With explicit label: `[[ link | label ]]`
+    - only supported for links not images
+3. Image: `[[image.ext]]`
+    - supports: .png, .jpg, .jpeg or .gif
+4. Image alt text: `[[image.ext|alt=alternate text]]`
 
 # Usage
 
@@ -33,6 +37,12 @@ html = md.convert(text)
 
 ```html
 <p><a class="wikilink" href="/path/to/file-name">File Name</a></p>
+```
+
+`[[/path/to/file name.jpg| alt= alt text]]` will become:
+
+```html
+<p><img alt="alt text" class="wikilink-image" src="/path/to/file-name.jpg" /></p>
 ```
 
 `[[https://www.example.com/example-tutorial]]` will become:
@@ -60,6 +70,7 @@ url_whitespace | `'-'` | Replace all whitespace in the file_path path with this 
 url_case | `'none'` | Choose case in the file_path. Available options: lowercase, uppercase.
 label_case | `'titlecase'` | Choose case of the label. Available options: titlecase, capitalize, none. Capitalize will capitalize the first character only.
 html_class | `'wikilink'` | Set custom HTML classes on the anchor tag. It does not add classes rather it resets any previously set value.
+image_class | `'wikilink-image'` | Set custom HTML classes on the anchor tag. It does not add classes rather it resets any previously set value.
 build_url | `mdx_wikilink_plus.build_url` | A callable that returns the URL string. [Default build_url callable](#the-build_url-callable)
 
 **None of the configs apply on absolute URLs except html_class and build_url. (Yes, label_case won't work either)**
@@ -74,8 +85,10 @@ We recognize the following template:
 wiki_base_url: /static/
 wiki_end_url: 
 wiki_url_whitespace: _
+wiki_url_case: lowercase
 wiki_label_case: capitalize
 wiki_html_class: wikilink
+wiki_image_class: wikilink-image
 
 The first line of the document
 ```
@@ -89,9 +102,7 @@ md_configs = {
                 'mdx_wikilink_plus': {
                     'base_url': '/static',
                     'end_url': '.html',
-                    'url_whitespace': '-',
                     'url_case': 'lowercase',
-                    'label_case': 'titlecase',
                     'html_class': 'a-custom-class',
                     #'build_url': build_url, # A callable
                     # all of the above config params are optional
@@ -102,7 +113,7 @@ md_configs = {
 text = """
 [[Page Name]]
 
-[[/path/to/file-name]]
+[[/path/to/file-name.png|alt=demo image]]
 
 [[/path/to/file name/?a=b&b=c]]
 """
@@ -116,7 +127,7 @@ The output will be:
 
 ```html
 <p><a class="a-custom-class" href="/static/page-name.html">Page Name</a></p>
-<p><a class="a-custom-class" href="/static/path/to/file-name.html">File Name</a></p>
+<p><img alt="demo image" class="wikilink-image" src="/static/path/to/file-name.png" /></p>
 <p><a class="a-custom-class" href="/static/path/to/file-name.html?a=b&amp;b=c">File Name</a></p>
 ```
 
