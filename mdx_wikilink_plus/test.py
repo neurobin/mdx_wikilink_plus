@@ -7,6 +7,8 @@ import markdown
 from markdown.extensions.meta import MetaExtension
 from mdx_wikilink_plus.mdx_wikilink_plus import WikiLinkPlusExtension
 
+unittest.TestLoader.sortTestMethodsUsing = None
+
 def build_url(urlo, base, end, url_whitespace, url_case):
     return "https://dummy"
 
