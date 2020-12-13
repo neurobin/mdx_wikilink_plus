@@ -77,9 +77,9 @@ build_url | `mdx_wikilink_plus.build_url` | A callable that returns the URL stri
 
 ### Configuration through meta data
 
-Configuration can also be passed through metadata (markdown.extensions.meta).
+Configuration can also be passed through metadata ([markdown.extensions.meta](https://python-markdown.github.io/extensions/meta_data/)). Meta-data consists of a series of keywords and values which must be defined at the beginning of a markdown document.
 
-We recognize the following template:
+The following example uses recognised metadata parameters:
 
 ```md
 wiki_base_url: /static/
@@ -87,10 +87,10 @@ wiki_end_url:
 wiki_url_whitespace: _
 wiki_url_case: lowercase
 wiki_label_case: capitalize
-wiki_html_class: wikilink
-wiki_image_class: wikilink-image
+wiki_html_class: wiki-link
+wiki_image_class: wiki-image
 
-The first line of the document
+This is the first paragraph of the document.
 ```
 
 
@@ -134,111 +134,25 @@ The output will be:
 !!! info
     `end_url` is added at the end of the file-path part in the URL.
 
+-----
 
 # More examples
 
-Our test markdown:
-
-```md
-[[wikilink]]    `[[wikilink]]`
-
-[[/path/to/file name]]
-
-[[/path/to/file_name]]
-
-[[/path/to/file-name]]
-
-[[/path/to/file name/?a=b&b=c]]
-
-[[/path/to/file name.html]]
-
-[[/path/to/file name.html?a=b&b=c]]
-
-[[https://www.example.com/?]]
-
-[[https://www.example.com/?a=b&b=c]]
-
-[[https://www.example.com/example-tutorial]]
-
-[[https://www.example.com/example-tutorial | Example Tutorial]]
-```
-
-## Output without any config
-
-```html
-<p><a class="wikilink" href="wikilink">Wikilink</a>    <code>[[wikilink]]</code></p>
-<p><a class="wikilink" href="/path/to/file-name">File Name</a></p>
-<p><a class="wikilink" href="/path/to/file_name">File Name</a></p>
-<p><a class="wikilink" href="/path/to/file-name">File Name</a></p>
-<p><a class="wikilink" href="/path/to/file-name/?a=b&amp;b=c">File Name</a></p>
-<p><a class="wikilink" href="/path/to/file-name.html">File Name</a></p>
-<p><a class="wikilink" href="/path/to/file-name.html?a=b&amp;b=c">File Name</a></p>
-<p><a class="wikilink" href="https://www.example.com/">www.example.com</a></p>
-<p><a class="wikilink" href="https://www.example.com/?a=b&amp;b=c">www.example.com</a></p>
-<p><a class="wikilink" href="https://www.example.com/example-tutorial">Example Tutorial</a></p>
-<p><a class="wikilink" href="https://www.example.com/example-tutorial">Example Tutorial</a></p>
-```
-
-## With a config
-
-With the configuration
-
-```python
-'mdx_wikilink_plus': {
-    'base_url': '/static',
-    'end_url': '.html',
-    'url_whitespace': '-',
-    'label_case': 'titlecase',
-    'html_class': 'a-custom-class',
-},
-```
-
-the output will be:
-
-```html
-<p><a class="a-custom-class" href="/static/wikilink.html">Wikilink</a>    <code>[[wikilink]]</code></p>
-<p><a class="a-custom-class" href="/static/path/to/file-name.html">File Name</a></p>
-<p><a class="a-custom-class" href="/static/path/to/file_name.html">File Name</a></p>
-<p><a class="a-custom-class" href="/static/path/to/file-name.html">File Name</a></p>
-<p><a class="a-custom-class" href="/static/path/to/file-name.html?a=b&amp;b=c">File Name</a></p>
-<p><a class="a-custom-class" href="/static/path/to/file-name.html">File Name</a></p>
-<p><a class="a-custom-class" href="/static/path/to/file-name.html?a=b&amp;b=c">File Name</a></p>
-<p><a class="a-custom-class" href="https://www.example.com/">www.example.com</a></p>
-<p><a class="a-custom-class" href="https://www.example.com/?a=b&amp;b=c">www.example.com</a></p>
-<p><a class="a-custom-class" href="https://www.example.com/example-tutorial">Example Tutorial</a></p>
-<p><a class="a-custom-class" href="https://www.example.com/example-tutorial">Example Tutorial</a></p>
-```
+More examples are given in the [test markdown code](https://github.com/neurobin/mdx_wikilink_plus/blob/master/mdx_wikilink_plus/test.py) which demonstrates defaults with no config, a config, meta and build_url.
 
 ## With meta (`markdown.extensions.meta`)
 
-With the following meta added to the markdown:
+If meta is used it must be added to the start of the markdown. eg:
 
 ```md
-wiki_base_url: /static/
-wiki_end_url: 
+wiki_base_url: /local
 wiki_url_whitespace: _
+wiki_url_case: lowercase
 wiki_label_case: capitalize
-wiki_html_class: wikilink
+wiki_html_class: wiki-lnk
+wiki_image_class: wiki-img
 ```
-
-the output will be:
-
-```html
-<p><a class="wikilink" href="/static/wikilink">Wikilink</a>    <code>[[wikilink]]</code></p>
-<p><a class="wikilink" href="/static/path/to/file_name">File name</a></p>
-<p><a class="wikilink" href="/static/path/to/file_name">File name</a></p>
-<p><a class="wikilink" href="/static/path/to/file-name">File name</a></p>
-<p><a class="wikilink" href="/static/path/to/file_name/?a=b&amp;b=c">File name</a></p>
-<p><a class="wikilink" href="/static/path/to/file_name.html">File name</a></p>
-<p><a class="wikilink" href="/static/path/to/file_name.html?a=b&amp;b=c">File name</a></p>
-<p><a class="wikilink" href="https://www.example.com/">www.example.com</a></p>
-<p><a class="wikilink" href="https://www.example.com/?a=b&amp;b=c">www.example.com</a></p>
-<p><a class="wikilink" href="https://www.example.com/example-tutorial">Example tutorial</a></p>
-<p><a class="wikilink" href="https://www.example.com/example-tutorial">Example Tutorial</a></p>
-```
-
 
 # The build_url callable
 
-You can view the default [build_url](https://github.com/neurobin/mdx_wikilink_plus/blob/master/mdx_wikilink_plus/mdx_wikilink_plus.py#L36) function [here](https://github.com/neurobin/mdx_wikilink_plus/blob/master/mdx_wikilink_plus/mdx_wikilink_plus.py#L36).
-
+You can view the default [build_url](https://github.com/neurobin/mdx_wikilink_plus/blob/master/mdx_wikilink_plus/mdx_wikilink_plus.py#L36) function which can be customized in python.
