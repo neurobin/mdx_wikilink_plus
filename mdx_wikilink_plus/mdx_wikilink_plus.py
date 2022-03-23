@@ -35,25 +35,25 @@ WIKILINK_PLUS_RE = r'\[\[\s*(?P<target>[^][|]+?)(\s*\|\s*(?P<label>[^][]+))?\s*\
 
 def build_url(urlo, base, end, url_whitespace, url_case):
     """ Build and return a valid url.
-        
+
     Parameters
     ----------
-    
+
     urlo            A ParseResult object returned by urlparse
-    
+
     base            base_url from config
-    
+
     end             end_url from config
-    
+
     url_whitespace  url_whitespace from config
-    
+
     url_case        url_case from config
-    
+
     Returns
     -------
-    
+
     URL string
-    
+
     """
     if not urlo.netloc:
         if not end:
@@ -75,7 +75,7 @@ def build_url(urlo, base, end, url_whitespace, url_case):
         else:
             urlo = urlo._replace(path=path)
     return urlunparse(urlo)
-        
+
 
 def title(subject):
     """Return title cased version of the given subject string"""
@@ -156,9 +156,9 @@ class WikiLinkPlusPattern(markdown.inlinepatterns.Pattern):
             else:
                 checkurl = urlo.netloc
             isimage = False
-            imagesuffixes = ['png', 'jpg', 'jpeg', 'gif']
+            imagesuffixes = ['.png', '.jpg', '.jpeg', '.gif', '.svg']
             for suffix in imagesuffixes:
-                if checkurl.endswith('.' + suffix):
+                if checkurl.lower().endswith(suffix):
                     isimage = True
                     break
             if not isimage:
