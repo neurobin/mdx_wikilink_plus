@@ -7,7 +7,7 @@ from setuptools import setup
 
 sys.path[0:0] = ['mdx_wikilink_plus']
 
-version = "1.4.1"
+from version import __version__
 
 def get_readme(filename):
     content = ""
