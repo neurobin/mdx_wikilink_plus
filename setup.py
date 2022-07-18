@@ -7,7 +7,7 @@ from setuptools import setup
 
 sys.path[0:0] = ['mdx_wikilink_plus']
 
-version = '1.4.1'
+from version import __version__
 
 def get_readme(filename):
     content = ""
@@ -18,14 +18,14 @@ def get_readme(filename):
         pass
     return content
 
-setup(name="mdx_wikilink_plus_fork",
-      version=version,
-      author="Mara-Li",
-      author_email="Mara-li@outlook.fr",
+setup(name="mdx_wikilink_plus",
+      version=__version__,
+      author="Md. Jahidul Hamid",
+      author_email="jahidulhamid@yahoo.com",
       description="A wikilink extension for Python Markdown",
       license="BSD",
       keywords="markdown wikilinks wikilink wikilink_plus",
-      url="https://github.com/mara-li/mdx_wikilink_plus",
+      url="https://github.com/neurobin/mdx_wikilink_plus",
       packages=["mdx_wikilink_plus"],
       long_description=get_readme("README.md"),
       long_description_content_type="text/markdown",
