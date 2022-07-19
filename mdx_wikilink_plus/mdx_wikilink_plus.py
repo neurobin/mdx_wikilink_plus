@@ -22,14 +22,14 @@ except ImportError:
     from urlparse import urlparse
     from urlparse import urlunparse
 import markdown
-from markdown.util import etree
+import xml.etree.ElementTree as etree
 import re
 import os
 from . import version
 
 __version__ = version.__version__
 
-MARKDOWN_MAJOR = markdown.version_info[0]
+MARKDOWN_MAJOR = markdown.__version_info__[0]
 
 WIKILINK_PLUS_RE = r'\[\[\s*(?P<target>[^][|]+?)(\s*\|\s*(?P<label>[^][]+))?\s*\]\]'
 
