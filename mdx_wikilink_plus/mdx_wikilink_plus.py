@@ -29,7 +29,10 @@ from . import version
 
 __version__ = version.__version__
 
-MARKDOWN_MAJOR = (markdown.__version_info__ if hasattr(markdown, "__version_info__") else markdown.version_info)[0]
+try:
+    MARKDOWN_MAJOR = markdown.__version_info__[0]
+except AttributeError:
+    MARKDOWN_MAJOR = markdown.version_info[0]
 
 WIKILINK_PLUS_RE = r'\[\[\s*(?P<target>[^][|]+?)(\s*\|\s*(?P<label>[^][]+))?\s*\]\]'
 
